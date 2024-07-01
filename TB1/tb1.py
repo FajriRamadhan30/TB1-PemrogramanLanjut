@@ -1,23 +1,30 @@
 #Fajri Ramadhan
 #41822010049
 import re
-
 with open('input.txt', 'r') as file:
-    baris_file = file.readlines()
 
-baris_pertama = baris_file[0].strip().split()
-jumlah_baris = int(baris_pertama[0])
-jumlah_kolom = int(baris_pertama[1])
+    input_masukan = file.readline().rstrip().split()
+    n = int(input_masukan[0])
+    m = int(input_masukan[1])
 
-matriks = [baris_file[i + 1].strip() for i in range(jumlah_baris)]
+    matriks = []
+    for _ in range(n):
+        item_matriks = file.readline().rstrip()
+        matriks.append(item_matriks)
 
-hasil_akhir = ""
-for kolom in range(jumlah_kolom):
-    for baris in range(jumlah_baris):
-        if kolom < len(matriks[baris]):
-            hasil_akhir += matriks[baris][kolom]
+hasil_dekode = ""
+
+for i in range(m):
+    for j in range(n):
+        try:
+            hasil_dekode += matriks[j][i]
+        except IndexError:
+            pass
 
 pola = r'(?<=[\w])[^\w]+(?=[\w])'
-hasil_akhir = re.sub(pola, ' ', hasil_akhir)
+pola_hasil = re.findall(pola, hasil_dekode)
 
-print(hasil_akhir)
+for x in pola_hasil:
+    hasil_dekode = hasil_dekode.replace(x, ' ', 1)
+
+print(hasil_dekode)
